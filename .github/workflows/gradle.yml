@@ -21,19 +21,23 @@ jobs:
         java-version: '17'
         distribution: 'temurin'
 
-    # Gradle Wrapperを最新に更新（Gradle 8.10）
+    # gradlew に実行権限を付与
+    - name: Grant execute permission for Gradlew
+      run: chmod +x gradlew
+
+    # Gradle Wrapper を最新化（Gradle 8.10）
     - name: Update Gradle Wrapper
       run: ./gradlew wrapper --gradle-version 8.10 --distribution-type bin
 
-    # Gradle セットアップ（キャッシュ有効化）
+    # Gradle セットアップ
     - name: Setup Gradle
       uses: gradle/actions/setup-gradle@v4
 
-    # ビルド実行
+    # ビルド
     - name: Build with Gradle Wrapper
       run: ./gradlew build --warning-mode all
 
-    # ビルド成果物アップロード
+    # 成果物アップロード
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
       with:
